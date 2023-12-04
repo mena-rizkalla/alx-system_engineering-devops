@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# installs nginx and show a simple hello world on the server.
+
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+echo 'add_header X-Served-By $hostname;' | sudo tee /etc/nginx/conf.d/custom_header.conf
+service nginx start
