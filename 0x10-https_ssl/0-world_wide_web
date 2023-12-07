@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Run: ./1-world_wide_web <domain> <subdomain>
+
+domain_information() {
+    local subdomain="${1}"
+    local domain="${2}"
+    local record_type
+    local destination
+
+    record_type="$(dig "${subdomain}.${domain}" | grep -A1 'ANSWER SECTION:' | awk '{print $4}' | tr -d '\n')"
+    destination="$(dig "${subdomain}.${domain}" | grep -A1 'ANSWER SECTION:' | awk '{print $5}' | tr -d '\n')"
+    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
+}
+
+domain="${1}"
+
+if [[ $# -eq 1 ]]; then
+    domain_information "www" "${domain}"
+    domain_information "lb-01" "${domain}"
+    domain_information "web-01" "${domain}"
+    domain_information "web-02" "${domain}"
+elif [[ $# -eq 2 ]]; then
+    subdomain="${2}"
+    domain_information "${subdomain}" "${domain}"
+fi
