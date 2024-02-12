@@ -1,6 +1,6 @@
 0x13-firewall
 
-in the advanced task 
+in the advanced task   
 1)sudo  vim /etc/ufw/sysctl.conf  
 2) remove commit from forward code (forward =1)  
 3)update -> sudo sysctl -p  
