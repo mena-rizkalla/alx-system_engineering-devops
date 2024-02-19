@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-"""Export data in CSV file"""
-import sys
-import requests
+"""Exports to-do list information for a given employee ID to CSV format."""
 import csv
+import requests
+import sys
 
 def write_todos_to_csv(todos_of_user,filename="{}.csv".format(sys.argv[1])):
     """Writes the given todos to a CSV file, handling flattening and headers."""
