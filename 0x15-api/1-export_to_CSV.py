@@ -4,7 +4,7 @@ import requests
 import csv
 
 
-def write_todos_to_csv(todos_of_user, filename="data.csv"):
+def write_todos_to_csv(todos_of_user,filename="{}.csv".format(sys.argv[1])):
     """Writes the given todos to a CSV file, handling flattening and headers."""
 
     flattened_todos = []
@@ -24,8 +24,7 @@ def write_todos_to_csv(todos_of_user, filename="data.csv"):
         flattened_todos.append(flattened_todo)
 
     with open(filename, "w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=flattened_todos[0].keys())
-        writer.writeheader()
+        writer = csv.DictWriter(file, fieldnames=flattened_todos[0].keys(), quoting=csv.QUOTE_ALL)
         writer.writerows(flattened_todos)
 
 if __name__ == '__main__':
@@ -35,8 +34,13 @@ if __name__ == '__main__':
 
     todos_of_user = []
     for todo in todos:
-        if todo.get('userId') == 1:
-            todos_of_user.append(todo)
+        arr = {}
+        if todo.get('userId') == user["id"]:
+            arr["USER_ID"] = user["id"]
+            arr["USERNAME"] = user['username']
+            arr["TASK_COMPLETED_STATUS"] = todo["completed"]
+            arr["TASK_TITLE"] = todo["title"]
+            todos_of_user.append(arr)
 
     write_todos_to_csv(todos_of_user)
 
